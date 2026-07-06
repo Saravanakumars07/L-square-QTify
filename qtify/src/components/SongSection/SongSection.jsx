@@ -8,35 +8,32 @@ import styles from "./SongSection.module.css";
 import prevIcon from "../../assets/prev.svg";
 import nextIcon from "../../assets/next.svg";
 
-
 function SongsSection() {
   const [genresData, setGenresData] = useState([]);
   const [songsData, setSongsData] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("all");
-
   const carouselRef = useRef(null);
 
   useEffect(() => {
-    // Fetch genres
-    axios
-      .get("https://qtify-backend-labs.crio.do/genres")
-      .then((res) => {
-        // API returns { data: [...] }
-        const genresArray = Array.isArray(res.data) ? res.data : res.data.data || [];
+    const fetchData = async () => {
+      try {
+        const [genresRes, songsRes] = await Promise.all([
+          axios.get("https://qtify-backend.labs.crio.do/albums/top"),
+          axios.get("https://qtify-backend.labs.crio.do/albums/new")
+        ]);
+        const genresArray = Array.isArray(genresRes.data) ? genresRes.data : genresRes.data.data || [];
         setGenresData(genresArray);
-      })
-      .catch((err) => console.error("Error fetching genres:", err));
-
-    // Fetch songs
-    axios
-      .get("https://qtify-backend-labs.crio.do/songs")
-      .then((res) => setSongsData(res.data))
-      .catch((err) => console.error("Error fetching songs:", err));
+        setSongsData(songsRes.data);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      }
+    };
+    fetchData();
   }, []);
-  const filteredSongs =
-    selectedGenre === "all"
-      ? songsData
-      : songsData.filter((song) => song.genre?.key === selectedGenre);
+
+  const filteredSongs = selectedGenre === "all" 
+    ? songsData 
+    : songsData.filter((song) => song.genre?.key === selectedGenre);
 
   const items = filteredSongs.map((song, index) => (
     <Card key={index} album={song} isSong={true} />
@@ -47,36 +44,23 @@ function SongsSection() {
       <div className={styles.header}>
         <h3>Songs</h3>
       </div>
-
       {/* Tabs */}
       <Tabs
         value={selectedGenre}
         onChange={(e, newValue) => setSelectedGenre(newValue)}
         variant="scrollable"
         scrollButtons="auto"
-       sx={{
-    '& .MuiTab-root': {
-      color: 'white',
-      textTransform: 'none',
-      fontWeight: 500,
-      fontSize: '16px',
-    },
-    '& .Mui-selected': {
-      color: 'white',
-    },
-    '& .MuiTabs-indicator': {
-      backgroundColor: '#34c94b',
-      height: 3,
-      borderRadius: '2px 2px 0 0',
-    },
-  }}
+        sx={{
+          '& .MuiTab-root': { color: 'white', textTransform: 'none', fontWeight: 500, fontSize: '16px' },
+          '& .Mui-selected': { color: 'white' },
+          '& .MuiTabs-indicator': { backgroundColor: '#34c94b', height: 3, borderRadius: '2px 2px 0 0' },
+        }}
       >
         <Tab key="all" value="all" label="All" />
         {genresData.map((genre) => (
           <Tab key={genre.key} value={genre.key} label={genre.label} />
         ))}
       </Tabs>
-
       {/* Carousel */}
       <div className={styles.carouselWrapper}>
         <AliceCarousel
@@ -93,18 +77,11 @@ function SongsSection() {
             1440: { items: 7 },
           }}
         />
-
         {/* Prev / Next buttons */}
-        <button
-          className={`${styles.navButton} ${styles.prevButton}`}
-          onClick={() => carouselRef.current?.slidePrev()}
-        >
+        <button className={`${styles.navButton} ${styles.prevButton}`} onClick={() => carouselRef.current?.slidePrev()}>
           <img src={prevIcon} alt="Previous" />
         </button>
-        <button
-          className={`${styles.navButton} ${styles.nextButton}`}
-          onClick={() => carouselRef.current?.slideNext()}
-        >
+        <button className={`${styles.navButton} ${styles.nextButton}`} onClick={() => carouselRef.current?.slideNext()}>
           <img src={nextIcon} alt="Next" />
         </button>
       </div>

@@ -13,14 +13,15 @@ const Carousel =({data, renderCard}) => {
                 nextEl:".swiper-button-next",
                 prevEl:".swiper-button-prev",
             }}
-            spaceBetween={16}
-            breakpoints={{
-                320:{slidesPerView:2},
-                640:{slidesPerView:3},
-                1024:{slidesPerView:4},
-                1280:{slidesPerView:5},
+            // spaceBetween={16}
+            // breakpoints={{
+            //     320:{slidesPerView:2},
+            //     640:{slidesPerView:3},
+            //     1024:{slidesPerView:4},
+            //     1280:{slidesPerView:5},
 
-            }}>
+            // }}
+            >
                 {data.map((item) =>(
                     <SwiperSlide key={item.id}>{renderCard(item)}</SwiperSlide>
                 ))}

@@ -1,0 +1,22 @@
+.carousel{
+    position:relative;
+    width:100%;
+}
+
+.swiper{
+    padding:20px 0;
+}
+
+.swipper-button-prev, swipper-button-next{
+    background:#000;
+    color: #34c94b;
+    border-radius: 50px;
+     width:40px;
+     height:40px;
+     display:flex;
+     justify-content:center;
+}
+
+.swiper-button-prev::after, .swiper-button-next::after{
+    font-size:16px;
+}

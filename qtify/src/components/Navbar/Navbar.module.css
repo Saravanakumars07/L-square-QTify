@@ -1,0 +1,12 @@
+.navbar {
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:  0 20px;
+    background-color: var(--color-black);
+}
+
+.logoLink{
+    display:flex;
+     align-items: center;
+}

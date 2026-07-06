@@ -1,0 +1,35 @@
+.card{
+    background-color: #181818;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    transition: tranrsform 0.2a ease-in-out;
+    cursor:pointer;
+}
+
+.card:hover{
+    transform: translateY(-5PX);
+}
+
+.card-button{
+    padding:10px;
+    display: flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.album-title{
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.album-artist{
+    background: #34c94b !important;
+    font-size: 12px !important;
+    font-weight:500;
+    height:22px;
+    align-self: flex-start;
+}

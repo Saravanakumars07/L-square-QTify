@@ -14,7 +14,7 @@ const Listbox = styled("ul")({
   borderRadius: "0px 0px 10px 10px",
   border: "1px solid var(--color-primary)",
   top: 60,
-  maxHeight: 500,
+  maxHeight: 100,
   zIndex: 10,
   listStyle: "none",
   backgroundColor: "var(--color-black)",

@@ -8,6 +8,8 @@ import styles from "./SongSection.module.css";
 import prevIcon from "../../assets/prev.svg";
 import nextIcon from "../../assets/next.svg";
 
+
+
 function SongsSection() {
   const [genresData, setGenresData] = useState([]);
   const [songsData, setSongsData] = useState([]);
@@ -18,8 +20,8 @@ function SongsSection() {
     const fetchData = async () => {
       try {
         const [genresRes, songsRes] = await Promise.all([
-          axios.get("https://qtify-backend.labs.crio.do/albums/top"),
-          axios.get("https://qtify-backend.labs.crio.do/albums/new")
+          axios.get("https://qtify-backend.labs.crio.do/genres"),
+          axios.get("https://qtify-backend.labs.crio.do/songs")
         ]);
         const genresArray = Array.isArray(genresRes.data) ? genresRes.data : genresRes.data.data || [];
         setGenresData(genresArray);
@@ -39,6 +41,10 @@ function SongsSection() {
     <Card key={index} album={song} isSong={true} />
   ));
 
+  const handleChange = (e, newValue) => {
+    setSelectedGenre(newValue);
+  };
+
   return (
     <div className={styles.section}>
       <div className={styles.header}>
@@ -47,7 +53,7 @@ function SongsSection() {
       {/* Tabs */}
       <Tabs
         value={selectedGenre}
-        onChange={(e, newValue) => setSelectedGenre(newValue)}
+        onChange={handleChange}
         variant="scrollable"
         scrollButtons="auto"
         sx={{
@@ -64,6 +70,7 @@ function SongsSection() {
       {/* Carousel */}
       <div className={styles.carouselWrapper}>
         <AliceCarousel
+          key={selectedGenre} // re-render on tab change
           mouseTracking
           items={items}
           disableDotsControls

@@ -13,7 +13,7 @@ function Navbar({ searchData }) {
         <Logo />
       </Link>
       <Search placeholder="Search a song of your choice" searchData={searchData} />
-      <Button variant="black">Give feedback</Button>
+      <Button variant="black">Give Feedback</Button>
     </nav>
   );
 }
